@@ -22,3 +22,57 @@
   document.querySelector('#uploadInspirationBtn').onclick=()=>document.querySelector('#inspirationUpload').click();document.querySelector('#inspirationUpload').onchange=e=>{[...e.target.files].forEach(file=>{const reader=new FileReader();reader.onload=()=>{const list=get('wardrobe:inspiration');list.unshift({name:file.name.replace(/\.[^.]+$/,''),src:reader.result});set('wardrobe:inspiration',list);renderInspiration()};reader.readAsDataURL(file)})};document.querySelector('#inspirationGrid').addEventListener('click',e=>{const button=e.target.closest('[data-remove-inspo]');if(!button)return;const list=get('wardrobe:inspiration');list.splice(Number(button.dataset.removeInspo),1);set('wardrobe:inspiration',list);renderInspiration()});
   renderPersonal(); renderItems(); renderInspiration(); buildPanel(); note('Добавь фото отдельных вещей — и я предложу сочетания из твоей палитры: wine, шоколад, глубокий зелёный и молочный.');
 })();
+
+// Make every existing wardrobe card editable too, not only newly uploaded items.
+(() => {
+  let staticItemToReplace = null;
+  const getObject = key => JSON.parse(localStorage.getItem(key) || '{}');
+  const set = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+  const grid = document.querySelector('#closetGrid');
+  const input = document.querySelector('#itemUpload');
+  const uploadButton = document.querySelector('#uploadItemBtn');
+
+  function addPhotoButtons() {
+    const replacements = getObject('wardrobe:item-photo-overrides');
+    grid.querySelectorAll('.item-card:not(.user-item)').forEach((card, index) => {
+      const media = card.querySelector('.item-image');
+      if (!media) return;
+      const name = card.querySelector('h3')?.textContent || 'Вещь';
+      media.classList.add('photo-item');
+      if (replacements[index]) {
+        media.innerHTML = `<img src="${replacements[index]}" alt="${name}"><button class="change-item change-static" data-change-static="${index}" aria-label="Изменить фото">↻</button>`;
+      } else if (!media.querySelector('[data-change-static]')) {
+        media.insertAdjacentHTML('beforeend', `<button class="change-item change-static" data-change-static="${index}" aria-label="Изменить фото">↻</button>`);
+      }
+    });
+  }
+
+  const originalChange = input.onchange;
+  input.onchange = event => {
+    if (staticItemToReplace === null) return originalChange(event);
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const replacements = getObject('wardrobe:item-photo-overrides');
+      replacements[staticItemToReplace] = reader.result;
+      set('wardrobe:item-photo-overrides', replacements);
+      staticItemToReplace = null;
+      addPhotoButtons();
+    };
+    reader.readAsDataURL(file);
+  };
+
+  grid.addEventListener('click', event => {
+    const button = event.target.closest('[data-change-static]');
+    if (!button) return;
+    event.preventDefault();
+    event.stopPropagation();
+    staticItemToReplace = Number(button.dataset.changeStatic);
+    input.click();
+  }, true);
+  uploadButton.addEventListener('click', () => { staticItemToReplace = null; });
+  document.querySelector('#closetFilters').addEventListener('click', () => setTimeout(addPhotoButtons, 20));
+  addPhotoButtons();
+})();
+
