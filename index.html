@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2e111a" />
+    <title>Гардероб — персональный стиль</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="overrides.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#today"><span class="brand-mark">G</span><span>Гардероб</span></a>
+        <nav class="side-nav" aria-label="Основная навигация">
+          <button class="nav-link active" data-view="today"><i>✦</i>Сегодня</button>
+          <button class="nav-link" data-view="looks"><i>◫</i>Образы</button>
+          <button class="nav-link" data-view="closet"><i>◇</i>Гардероб</button>
+          <button class="nav-link" data-view="wishlist"><i>♡</i>Wishlist</button>
+          <button class="nav-link" data-view="inspiration"><i>✧</i>Вдохновение</button>
+          <button class="nav-link" data-view="style"><i>◌</i>Мой стиль</button>
+        </nav>
+        <div class="season-card"><span>Сентябрь</span><b>Ранняя осень</b><small>18–22° · мягкий свет</small></div>
+      </aside>
+
+      <main>
+        <section class="view active" id="today">
+          <header class="topbar"><div><p class="eyebrow">пятница, 28 августа</p><h1>Доброе утро, <em>Алина.</em></h1></div><button class="profile" aria-label="Профиль">А</button></header>
+          <div class="today-intro"><p>Какое сегодня настроение?</p><div class="occasion-row" id="occasionRow">
+            <button class="pill selected" data-occasion="office">Офис</button><button class="pill" data-occasion="meeting">Встреча</button><button class="pill" data-occasion="weekend">Выходной</button><button class="pill" data-occasion="evening">Вечер</button>
+          </div></div>
+          <article class="hero-look">
+            <div class="hero-image mood-hero"></div>
+            <div class="hero-copy"><span class="eyebrow">ТВОЙ СТИЛЕВОЙ КОД</span><h2>Женственность<br><em>с характером</em></h2><p>Талия, длинная вертикаль, глубокий цвет и расслабленная современность — твоя формула на 2026.</p><div class="look-meta"><span>Wine</span><span>Relaxed tailoring</span><span>Мягкая драма</span></div><button class="primary" data-view-target="inspiration">Смотреть вдохновение <b>↗</b></button></div>
+          </article>
+          <section class="home-manifesto"><p class="eyebrow">ТВОЯ ФОРМУЛА</p><h2>Талия · глубокий цвет · выразительная деталь · модная расслабленность</h2><p>Не total oversize и не «правильная» классика. В приоритете — современная элегантность, фактуры и точные пропорции.</p></section>
+          <div id="quickLooks" hidden></div>
+        </section>
+
+        <section class="view" id="looks">
+          <header class="topbar"><div><p class="eyebrow">МОЯ КАПСУЛА</p><h1>Образы</h1></div><button class="round-button" id="uploadLookBtn" aria-label="Загрузить образ">＋</button></header>
+          <div class="filters" id="lookFilters"><button class="chip active" data-filter="all">Все</button><button class="chip" data-filter="work">Работа</button><button class="chip" data-filter="office">Офис</button><button class="chip" data-filter="meeting">Встреча</button><button class="chip" data-filter="weekend">Выходной</button><button class="chip" data-filter="evening">Вечер</button><button class="chip" data-filter="favorite">♥ Избранное</button></div>
+          <div class="look-grid" id="lookGrid"></div>
+        </section>
+
+        <section class="view" id="closet">
+          <header class="topbar"><div><p class="eyebrow">32 ВЕЩИ · 5 КАТЕГОРИЙ</p><h1>Гардероб</h1></div><button class="round-button" id="uploadItemBtn" aria-label="Загрузить вещь">＋</button></header>
+          <div class="filters" id="closetFilters"><button class="chip active" data-filter="all">Все</button><button class="chip" data-filter="outerwear">Верхняя одежда</button><button class="chip" data-filter="bottom">Низ</button><button class="chip" data-filter="tailoring">Жакеты</button><button class="chip" data-filter="dress">Платья и юбки</button></div>
+          <div class="closet-grid" id="closetGrid"></div>
+        </section>
+
+        <section class="view" id="wishlist">
+          <header class="topbar"><div><p class="eyebrow">ПОКУПКИ СО СМЫСЛОМ</p><h1>Wishlist</h1></div><button class="round-button">＋</button></header>
+          <p class="lede">Только вещи, которые открывают новые сочетания в твоём гардеробе.</p><div class="wishlist-list" id="wishlistList"></div>
+        </section>
+
+        <section class="view" id="inspiration">
+          <header class="topbar"><div><p class="eyebrow">ТРЕНДЫ И РЕФЕРЕНСЫ</p><h1>Вдохновение</h1></div><button class="round-button" id="uploadInspirationBtn" aria-label="Добавить вдохновение">＋</button></header>
+          <p class="lede">Сохраняй сюда образы, детали, силуэты и сочетания, которые хочется попробовать.</p>
+          <div class="inspiration-grid" id="inspirationGrid"></div>
+        </section>
+
+        <section class="view" id="style">
+          <header class="topbar"><div><p class="eyebrow">ЛИЧНЫЙ КОД</p><h1>Мой стиль</h1></div><button class="round-button">↗</button></header>
+          <article class="style-hero"><p class="eyebrow">СТИЛЕВОЕ НАПРАВЛЕНИЕ</p><h2>Современная<br><em>женственность</em></h2><p>Refined / relaxed tailoring, мягкая сексуальность и немного характера.</p></article>
+          <div class="style-grid"><section class="style-note"><span class="mini-label">ПАЛИТРА</span><div class="swatches"><i style="background:#681f32"></i><i style="background:#422419"></i><i style="background:#183b2c"></i><i style="background:#171514"></i><i style="background:#f1eadf"></i></div><p>Wine · chocolate · forest · black · milk</p></section><section class="style-note"><span class="mini-label">СИЛУЭТ</span><p class="large-copy">Мягкая линия плеч, талия, длина миди, выразительная фактура.</p></section></div>
+          <section class="rules"><div class="section-heading"><h2>Твои ориентиры 2026</h2></div><div class="rule"><b>01</b><p>Собранность без жёсткости: расслабленный жакет + женственная база.</p></div><div class="rule"><b>02</b><p>Сложные глубокие оттенки вместо нейтральной монохромности.</p></div><div class="rule"><b>03</b><p>Акцент на настроение, а не на буквальную типологию. Theatrical Romantic — как подсказка, не правило.</p></div></section>
+        </section>
+      </main>
+      <nav class="bottom-nav"><button class="nav-link active" data-view="today">✦<span>Сегодня</span></button><button class="nav-link" data-view="looks">◫<span>Образы</span></button><button class="nav-link" data-view="closet">◇<span>Гардероб</span></button><button class="nav-link" data-view="inspiration">✧<span>Вдохновение</span></button><button class="nav-link" data-view="style">◌<span>Стиль</span></button></nav>
+    </div>
+    <dialog id="detailDialog"><button class="close-dialog" aria-label="Закрыть">×</button><div id="dialogContent"></div></dialog>
+    <input id="lookUpload" type="file" accept="image/*" multiple hidden />
+    <input id="itemUpload" type="file" accept="image/*" hidden />
+    <input id="inspirationUpload" type="file" accept="image/*" multiple hidden />
+    <script src="app.js"></script>
+    <script src="gallery.js"></script>
+  </body>
+</html>
